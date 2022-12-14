@@ -52,8 +52,8 @@ function createShapes() {
     base.VAO = bindVAO( base, textureProgram );
     bridge.VAO = bindVAO( bridge, textureProgram );
     cone.VAO = bindVAO(cone, textureProgram);
-    cylinder.VAO = bindVAO(cylinder, gradientProgram);
-    newcylinder.VAO = bindVAO(newcylinder, gradientProgram);
+    cylinder.VAO = bindVAO(cylinder, textureProgram);
+    newcylinder.VAO = bindVAO(newcylinder, textureProgram);
 
 }
 
