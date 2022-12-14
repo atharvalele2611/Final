@@ -312,7 +312,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
         transformMatrix(newcylinderMatrix, newcylinderMatrix, "s", 2.5,-0.750, 0,0);
         transformMatrix( newcylinderMatrix, newcylinderMatrix, 'rx', 0,0,0, radians(45));
         transformMatrix(newcylinderMatrix, newcylinderMatrix, "ry", 0,0,0, radians(-45));
-        transformMatrix(newcylinderMatrix, newcylinderMatrix, "rz", 0,0,0, radians(-90));
+        transformMatrix(newcylinderMatrix, newcylinderMatrix, "rz", 0,0,0, radians(-45));
 
         gl.activeTexture(gl.TEXTURE3);
         gl.bindTexture (gl.TEXTURE_2D, baseTexture);
@@ -453,10 +453,10 @@ function setUpPhong(program, color, lightPosition) {
     var lightClr = [color[0], color[1], color[2]];
     var baseClr = [.1, .2, .2];
     var specHighlightClr = [.2, .2, .2];
-    var Ka = 0.5;
-    var Kd = 0.5;
-    var Ks = 1.2;
-    var Ke = 5;
+    var Ka = 1;
+    var Kd = 1.4;
+    var Ks = 1;
+    var Ke = .4;
     
     gl.uniform3fv( program.ambientLight, ambLight);
     gl.uniform3fv( program.lightPosition, lightPos );
@@ -474,10 +474,10 @@ function setUpTexturePhong(program) {
     var ambLight = [.4, .4, .4];
     var lightClr = [1, 1, 1];
     var baseClr = [.4, .4, .4];
-    var Ka = 0.5;
-    var Kd = 0.5;
-    var Ks = 1.2;
-    var Ke = 5;
+    var Ka = 1;
+    var Kd = 1.4;
+    var Ks = 1;
+    var Ke = .4;
     gl.uniform3fv( program.ambientLight, ambLight);
     gl.uniform3fv( program.lightPosition, lightPos );
     gl.uniform3fv( program.lightColor, lightClr );
