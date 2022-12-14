@@ -8,9 +8,11 @@
   let gP;
   let tP;
   let grP;
-  
-  // let perVertexProgram;
-  // let perFragmentProgram;
+    // textures
+    let woodTex;
+    let skyTex;
+    let baseTex;
+    let ballTex;
 
   let nowShowing = 'Vertex';
   // VAOs for the objects
@@ -21,13 +23,6 @@
   var lampRods = null;
   var attachment = null;
   var lampHead = null;
-
-  // textures
-  let woodTexture;
-  let skyTexture;
-  let baseTexture;
-  let headTexture;
-  // let lampHeadTexture;
 
   // rotation
   var angles = [90.0, 90.0, 0.0];
@@ -70,7 +65,7 @@ function setUpCamera(program) {
 
 
 function fetchWoodTx(){
-  woodTexture = gl.createTexture();
+  woodTex = gl.createTexture();
   var woodImage = document.getElementById ('wood-texture')
   woodImage.crossOrigin = "";
   let level = 0;
@@ -80,7 +75,7 @@ function fetchWoodTx(){
   let border = 0;
   let srcFormat = gl.RGBA;
   let srcType = gl.UNSIGNED_BYTE;
-  gl.bindTexture(gl.TEXTURE_2D, woodTexture );
+  gl.bindTexture(gl.TEXTURE_2D, woodTex );
    gl.texImage2D(
     gl.TEXTURE_2D,
     level,
@@ -99,7 +94,7 @@ function fetchWoodTx(){
 
 
 function fetchSkyTx(){
-  skyTexture = gl.createTexture();
+  skyTex = gl.createTexture();
   var skyImage = document.getElementById('sky-texture');
   skyImage.crossOrigin = "";
 
@@ -111,7 +106,7 @@ function fetchSkyTx(){
   let srcFormat = gl.RGBA;
   let srcType = gl.UNSIGNED_BYTE;
 
-  gl.bindTexture(gl.TEXTURE_2D, skyTexture);
+  gl.bindTexture(gl.TEXTURE_2D, skyTex);
   gl.texImage2D(
     gl.TEXTURE_2D,
     level,
@@ -130,7 +125,7 @@ function fetchSkyTx(){
 }
 
 function fetchBaseTx(){
-  baseTexture = gl.createTexture();
+  baseTex = gl.createTexture();
   var baseImage = document.getElementById('base-texture');
   baseImage.crossOrigin = "";
 
@@ -142,7 +137,7 @@ function fetchBaseTx(){
   let srcFormat = gl.RGBA;
   let srcType = gl.UNSIGNED_BYTE;
 
-  gl.bindTexture(gl.TEXTURE_2D, baseTexture);
+  gl.bindTexture(gl.TEXTURE_2D, baseTex);
   gl.texImage2D(
     gl.TEXTURE_2D,
     level,
@@ -161,7 +156,7 @@ function fetchBaseTx(){
 }
 
 function fetchHeadTx(){
-  headTexture = gl.createTexture();
+  ballTex = gl.createTexture();
   var headImage = document.getElementById('head-texture');
   headImage.crossOrigin = "";
 
@@ -173,7 +168,7 @@ function fetchHeadTx(){
   let srcFormat = gl.RGBA;
   let srcType = gl.UNSIGNED_BYTE;
 
-  gl.bindTexture(gl.TEXTURE_2D, headTexture);
+  gl.bindTexture(gl.TEXTURE_2D, ballTex);
   gl.texImage2D(
     gl.TEXTURE_2D,
     level,
@@ -253,7 +248,7 @@ function transformWithType( matIn, matOut, type, x, y, z, rad ) {
     transformWithType(hM, hM, 't', 0.1, -1.0, -5);
     transformWithType(hM, hM, 's', 1, 1, 1, 0);
     gl.activeTexture (gl.TEXTURE3);
-    gl.bindTexture (gl.TEXTURE_2D, headTexture);
+    gl.bindTexture (gl.TEXTURE_2D, ballTex);
     gl.uniform1i (program.uTheTexture, 3);
     gl.uniform3fv (program.uTheta, new Float32Array(angles));
     gl.uniformMatrix4fv (program.uModelT, false, hM);
@@ -268,7 +263,7 @@ function transformWithType( matIn, matOut, type, x, y, z, rad ) {
     transformWithType( bM, bM, 't', 5, -2.5, 4, 1);
     transformWithType( bM, bM, "s", 50, 0.21, 10, 5);   
     gl.activeTexture (gl.TEXTURE0);
-    gl.bindTexture (gl.TEXTURE_2D, woodTexture);
+    gl.bindTexture (gl.TEXTURE_2D, woodTex);
     gl.uniform1i (program.uTheTexture, 0);
     gl.uniform3fv (program.uTheta, new Float32Array(angles));
     gl.uniformMatrix4fv (program.uModelT, false, bM);
@@ -283,7 +278,7 @@ function transformWithType( matIn, matOut, type, x, y, z, rad ) {
     transformWithType(sM, sM, 's', 50,70,10,0);
     transformWithType( sM, sM, 'rz', 0,0,0, radians(-180));
     gl.activeTexture (gl.TEXTURE1);
-    gl.bindTexture (gl.TEXTURE_2D, skyTexture);
+    gl.bindTexture (gl.TEXTURE_2D, skyTex);
     gl.uniform1i (program.uTheTexture, 1);
     gl.uniform3fv (program.uTheta, new Float32Array(angles));
     gl.uniformMatrix4fv (program.uModelT, false, sM);
@@ -299,7 +294,7 @@ function transformWithType( matIn, matOut, type, x, y, z, rad ) {
     transformWithType(cM, cM, "rz", 0,0,0, radians(-12))
 
     gl.activeTexture(gl.TEXTURE3);
-    gl.bindTexture (gl.TEXTURE_2D, baseTexture);
+    gl.bindTexture (gl.TEXTURE_2D, baseTex);
     gl.uniform1i (program.uTheTexture, 3);
     gl.uniform3fv (program.uTheta, new Float32Array(angles));
     gl.uniformMatrix4fv (program.uModelT, false, cM);
@@ -316,7 +311,7 @@ function transformWithType( matIn, matOut, type, x, y, z, rad ) {
     transformWithType(aM, aM, "rz", 0,0,0, radians(-45));
 
     gl.activeTexture(gl.TEXTURE3);
-    gl.bindTexture (gl.TEXTURE_2D, baseTexture);
+    gl.bindTexture (gl.TEXTURE_2D, baseTex);
     gl.uniform1i (program.uTheTexture, 3);
     gl.uniform3fv (program.uTheta, new Float32Array(angles));
     gl.uniformMatrix4fv (program.uModelT, false, aM);
@@ -331,7 +326,7 @@ function transformWithType( matIn, matOut, type, x, y, z, rad ) {
     transformWithType(coM, coM, "rx", 0,0,0,radians(-20));
     transformWithType(coM, coM, "rz", 0,0,0,radians(-15));
     gl.activeTexture (gl.TEXTURE3);
-    gl.bindTexture (gl.TEXTURE_2D, baseTexture);
+    gl.bindTexture (gl.TEXTURE_2D, baseTex);
     gl.uniform1i (program.uTheTexture, 3);
     gl.uniform3fv (program.uTheta, new Float32Array(angles));
     gl.uniformMatrix4fv (program.uModelT, false, coM);
@@ -341,23 +336,23 @@ function transformWithType( matIn, matOut, type, x, y, z, rad ) {
   }
 
   function bindBase(baM,program){
-    transformWithType( baM, baM, 't', 2.85,-.65, -1,0);
-    transformWithType( baM, baM, 's', 1,3.5,2,0);
-    gl.activeTexture (gl.TEXTURE2);
-    gl.bindTexture (gl.TEXTURE_2D, baseTexture);
-    gl.uniform1i (program.uTheTexture, 2);
-    gl.uniform3fv (program.uTheta, new Float32Array(angles));
-    gl.uniformMatrix4fv (program.uModelT, false, baM);
-    gl.uniform4fv (program.colorChange, [.4,.4,.5,1]);
-    gl.bindVertexArray(base.VAO);
-    gl.drawElements(gl.TRIANGLES, base.indices.length, gl.UNSIGNED_SHORT, 0);
+    // transformWithType( baM, baM, 't', 2.85,-.65, -1,0);
+    // transformWithType( baM, baM, 's', 1,3.5,2,0);
+    // gl.activeTexture (gl.TEXTURE2);
+    // gl.bindTexture (gl.TEXTURE_2D, baseTex);
+    // gl.uniform1i (program.uTheTexture, 2);
+    // gl.uniform3fv (program.uTheta, new Float32Array(angles));
+    // gl.uniformMatrix4fv (program.uModelT, false, baM);
+    // gl.uniform4fv (program.colorChange, [.4,.4,.5,1]);
+    // gl.bindVertexArray(base.VAO);
+    // gl.drawElements(gl.TRIANGLES, base.indices.length, gl.UNSIGNED_SHORT, 0);
     transformWithType( baM, baM, 't', -0.1,1.0, -1.2);
     transformWithType( baM, baM, 's', 0.5,0.8,0.2);
     transformWithType(baM, baM, "rx", 0,0,0,radians(0));
     transformWithType(baM, baM, "ry", 0,0,0,radians(-135));
     transformWithType(baM, baM, "rz", 0,0,0,radians(-180));
     gl.activeTexture (gl.TEXTURE2);
-    gl.bindTexture (gl.TEXTURE_2D, baseTexture);
+    gl.bindTexture (gl.TEXTURE_2D, baseTex);
     gl.uniform1i (program.uTheTexture, 2);
     gl.uniform3fv (program.uTheta, new Float32Array(angles));
     gl.uniformMatrix4fv (program.uModelT, false, baM);
