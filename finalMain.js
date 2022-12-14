@@ -327,7 +327,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
         transformMatrix(coneMatrix, coneMatrix, 't', 0.5, 3.0, -4.5);
         transformMatrix(coneMatrix, coneMatrix, 's', 2, 2, 1, 0);
         transformMatrix(coneMatrix, coneMatrix, "rx", 0,0,0,radians(-20));
-        transformMatrix(coneMatrix, coneMatrix, "rz", 0,0,0,radians(-30));
+        transformMatrix(coneMatrix, coneMatrix, "rz", 0,0,0,radians(-15));
         gl.activeTexture (gl.TEXTURE3);
         gl.bindTexture (gl.TEXTURE_2D, baseTexture);
         gl.uniform1i (program.uTheTexture, 3);
