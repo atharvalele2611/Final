@@ -32,7 +32,7 @@
         uniform float ks;
         uniform float ke;
         
-        out vec3 theColor;
+        out vec3 colr;
         
         void main()
         {
@@ -57,7 +57,7 @@
             vec3 spec = ks * specHighlightColor * lightColor * pow (max(dot(R, V), 0.0), ke);
 
             // final color
-            theColor = ambient + diffuse + spec;
+            colr = ambient + diffuse + spec;
             
             gl_Position = projT * viewT * modelT * vec4( aVertexPosition, 1.0);
             
@@ -71,14 +71,14 @@
          #version 300 es
          precision mediump float;
          
-         in vec3 theColor;
+         in vec3 colr;
          in vec2 theUV;
          
          // Color that is the result of this shader
          out vec4 fragColor;
 
          void main(void) {
-             fragColor = vec4 (theColor.xyz, 1.0);
+             fragColor = vec4 (colr.xyz, 1.0);
          }
 
      </script>
@@ -124,7 +124,7 @@
         uniform float ks;
         uniform float ke;
         
-        out vec3 theColor;
+        out vec3 colr;
       
       
     void main()
@@ -151,7 +151,7 @@
             vec3 spec = ks * specHighlightColor * lightColor * pow (max(dot(R, V), 0.0), ke);
 
             // final color
-            theColor = ambient + diffuse + spec;
+            colr = ambient + diffuse + spec;
             
         // Compute the sines and cosines of each rotation
         // about each axis
@@ -196,7 +196,7 @@
              
          // uvs passed in from vertex shader
          in vec2 theUV;
-         in vec3 theColor;
+         in vec3 colr;
          
          uniform vec4 colorChange;
          
@@ -209,7 +209,7 @@
          void main(void) {
             
             //fragColor = texture (theTexture, theUV) * colorChange;
-            fragColor = texture (theTexture, theUV) * vec4 (theColor.xyz, 1.0 );
+            fragColor = texture (theTexture, theUV) * vec4 (colr.xyz, 1.0 );
              
          }
 
@@ -270,13 +270,11 @@
     
     <!-- texture images -->
      <img id="world-texture" src="2_no_clouds_8k.jpg" style="display: none;"> </img>
-    <!-- edited here -->
+    
     <img id="wood-texture" src="wood_1.jpeg" style="display: none;"> </img>
-    <img id="sky-texture" src="sky.jpg" style="display: none;"> </img>
+    <img id="sky-texture" src="sky.webp" style="display: none;"> </img>
     <img id="base-texture" src="marble.webp" style="display: none;"> </img>
-    <img id="head-texture" src="head.jpg" style="display: none;"> </img>
-    <!-- <img id="lamp-texture" src="lamp_head.jpg" style="display: none;"> </img> -->
-    <!-- ------------ -->
+    <img id="head-texture" src="ball.jpg" style="display: none;"> </img>
 
   <script type="text/javascript">
     // Call init once the webpage has loaded
