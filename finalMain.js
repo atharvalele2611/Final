@@ -395,49 +395,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
       //create and bind VAO
       let theVAO = gl.createVertexArray();
       gl.bindVertexArray(theVAO);
-      
-      // create and bind vertex buffer
-      let myVertexBuffer = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, myVertexBuffer);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
-      gl.enableVertexAttribArray(program.aVertexPosition);
-      gl.vertexAttribPointer(program.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
-      
-      // add code for any additional vertex attribute
-      
-      
-      if( program == generalProgram) {
-        // create and bind bary buffer
-        let myNormalBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, myNormalBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(program.aNormal);
-        gl.vertexAttribPointer(program.aNormal, 3, gl.FLOAT, false, 0, 0);
-      } else if( program == textureProgram ) {
-        let myNormalBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, myNormalBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(program.aNormal);
-        gl.vertexAttribPointer(program.aNormal, 3, gl.FLOAT, false, 0, 0);
-          
-        let uvBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.uv), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(program.aUV);
-        gl.vertexAttribPointer(program.aUV, 2, gl.FLOAT, false, 0, 0);
-      }else if(program == gradientProgram){
-        let myNormalBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, myNormalBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(program.aNormal);
-        gl.vertexAttribPointer(program.aNormal, 3, gl.FLOAT, false, 0, 0);
-      }
-      
-      // Setting up the IBO
-      let myIndexBuffer = gl.createBuffer();
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, myIndexBuffer);
-      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(shape.indices), gl.STATIC_DRAW);
-
+      bindBuffer(shape,program);
       // Clean
       gl.bindVertexArray(null);
       gl.bindBuffer(gl.ARRAY_BUFFER, null);
@@ -445,6 +403,45 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
       
       return theVAO;
   }
+
+function bindBuffer(shape,program){
+  let myVertexBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, myVertexBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
+      gl.enableVertexAttribArray(program.aVertexPosition);
+      gl.vertexAttribPointer(program.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
+
+  if( program == generalProgram) {
+    // create and bind bary buffer
+    let myNormalBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, myNormalBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(program.aNormal);
+    gl.vertexAttribPointer(program.aNormal, 3, gl.FLOAT, false, 0, 0);
+  } else if( program == textureProgram ) {
+    let myNormalBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, myNormalBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(program.aNormal);
+    gl.vertexAttribPointer(program.aNormal, 3, gl.FLOAT, false, 0, 0);
+      
+    let uvBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.uv), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(program.aUV);
+    gl.vertexAttribPointer(program.aUV, 2, gl.FLOAT, false, 0, 0);
+  }else if(program == gradientProgram){
+    let myNormalBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, myNormalBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(program.aNormal);
+    gl.vertexAttribPointer(program.aNormal, 3, gl.FLOAT, false, 0, 0);
+  }
+
+  let myIndexBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, myIndexBuffer);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(shape.indices), gl.STATIC_DRAW);
+}
 
 function setUpPhong(program, color, lightPosition) {
     gl.useProgram (program);
