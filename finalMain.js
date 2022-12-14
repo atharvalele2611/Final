@@ -312,7 +312,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
         transformMatrix(newcylinderMatrix, newcylinderMatrix, "s", 2.5,-0.750, 0,0);
         transformMatrix( newcylinderMatrix, newcylinderMatrix, 'rx', 0,0,0, radians(20));
         transformMatrix(newcylinderMatrix, newcylinderMatrix, "ry", 0,0,0, radians(-20))
-        transformMatrix(newcylinderMatrix, newcylinderMatrix, "rz", 0,0,0, radians(-30))
+        transformMatrix(newcylinderMatrix, newcylinderMatrix, "rz", 0,0,0, radians(30))
 
         gl.activeTexture(gl.TEXTURE3);
         gl.bindTexture (gl.TEXTURE_2D, baseTexture);
