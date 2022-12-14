@@ -326,7 +326,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
     gl.bindTexture (gl.TEXTURE_2D, baseTexture);
     gl.uniform1i (program.uTheTexture, 3);
     gl.uniform3fv (program.uTheta, new Float32Array(angles));
-    gl.uniformMatrix4fv (program.uModelT, false, cylinderMatrix);
+    gl.uniformMatrix4fv (program.uModelT, false, cM);
     gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
     gl.bindVertexArray(cylinder.VAO);
     gl.drawElements(gl.TRIANGLES, cylinder.indices.length, gl.UNSIGNED_SHORT, 0);
