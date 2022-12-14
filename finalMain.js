@@ -5,9 +5,9 @@
   let gl;
 
   // GLSL programs
-  let generalProgram;
-  let textureProgram;
-  let gradientProgram;
+  let gP;
+  let tP;
+  let grP;
   
   // let perVertexProgram;
   // let perFragmentProgram;
@@ -47,13 +47,13 @@ function createShapes() {
     bridge = new Cube( 10 );
 
 
-    head.VAO = bindVAO (head, textureProgram);
-    sky.VAO = bindVAO( sky, textureProgram );
-    base.VAO = bindVAO( base, textureProgram );
-    bridge.VAO = bindVAO( bridge, textureProgram );
-    cone.VAO = bindVAO(cone, textureProgram);
-    cylinder.VAO = bindVAO(cylinder, textureProgram);
-    newcylinder.VAO = bindVAO(newcylinder, textureProgram);
+    head.VAO = bindVAO (head, tP);
+    sky.VAO = bindVAO( sky, tP );
+    base.VAO = bindVAO( base, tP );
+    bridge.VAO = bindVAO( bridge, tP );
+    cone.VAO = bindVAO(cone, tP);
+    cylinder.VAO = bindVAO(cylinder, tP);
+    newcylinder.VAO = bindVAO(newcylinder, tP);
 
 }
 
@@ -257,7 +257,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
         let coneMatrix = glMatrix.mat4.create();
 
         var program;
-        program = textureProgram;
+        program = tP;
 
         gl.useProgram(program);
         
@@ -324,51 +324,58 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
         gl.drawElements(gl.TRIANGLES, newcylinder.indices.length, gl.UNSIGNED_SHORT, 0);
 
         //cone for the lamp
-        transformMatrix(coneMatrix, coneMatrix, 't', 1, 3.0, -4.5);
-        transformMatrix(coneMatrix, coneMatrix, 's', 2, 2, 1, 0);
-        transformMatrix(coneMatrix, coneMatrix, "rx", 0,0,0,radians(-20));
-        transformMatrix(coneMatrix, coneMatrix, "rz", 0,0,0,radians(-15));
-        gl.activeTexture (gl.TEXTURE3);
-        gl.bindTexture (gl.TEXTURE_2D, baseTexture);
-        gl.uniform1i (program.uTheTexture, 3);
-        gl.uniform3fv (program.uTheta, new Float32Array(angles));
-        gl.uniformMatrix4fv (program.uModelT, false, coneMatrix);
-        gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
-        gl.bindVertexArray(cone.VAO);
-        gl.drawElements(gl.TRIANGLES, cone.indices.length, gl.UNSIGNED_SHORT, 0);
-        gl.activeTexture (gl.TEXTURE1);
-        gl.bindTexture (gl.TEXTURE_2D, skyTexture);
-        gl.uniform1i (program.uTheTexture, 1);
-        gl.uniform3fv (program.uTheta, new Float32Array(angles));
-        gl.uniformMatrix4fv (program.uModelT, false, skyMatrix);
-        gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
-        gl.bindVertexArray(sky.VAO);
-        gl.drawElements(gl.TRIANGLES, sky.indices.length, gl.UNSIGNED_SHORT, 0);
-
+        bindCone(coneMatrix);
         // base
-        transformMatrix( baseMatrix, baseMatrix, 't', 2.85,-.65, -1,0);
-        transformMatrix( baseMatrix, baseMatrix, 's', 1,3.5,2,0);
-        gl.activeTexture (gl.TEXTURE2);
-        gl.bindTexture (gl.TEXTURE_2D, baseTexture);
-        gl.uniform1i (program.uTheTexture, 2);
-        gl.uniform3fv (program.uTheta, new Float32Array(angles));
-        gl.uniformMatrix4fv (program.uModelT, false, baseMatrix);
-        gl.uniform4fv (program.colorChange, [.4,.4,.5,1]);
-        gl.bindVertexArray(base.VAO);
-        gl.drawElements(gl.TRIANGLES, base.indices.length, gl.UNSIGNED_SHORT, 0);
-        transformMatrix( baseMatrix, baseMatrix, 't', -0.1,1.0, -1.2);
-        transformMatrix( baseMatrix, baseMatrix, 's', 0.5,0.8,0.2);
-        transformMatrix(baseMatrix, baseMatrix, "rx", 0,0,0,radians(0));
-        transformMatrix(baseMatrix, baseMatrix, "ry", 0,0,0,radians(-135));
-        transformMatrix(baseMatrix, baseMatrix, "rz", 0,0,0,radians(-180));
-        gl.activeTexture (gl.TEXTURE2);
-        gl.bindTexture (gl.TEXTURE_2D, baseTexture);
-        gl.uniform1i (program.uTheTexture, 2);
-        gl.uniform3fv (program.uTheta, new Float32Array(angles));
-        gl.uniformMatrix4fv (program.uModelT, false, baseMatrix);
-        gl.uniform4fv (program.colorChange, [.4,.4,.5,1]);
-        gl.bindVertexArray(base.VAO);
-        gl.drawElements(gl.TRIANGLES, base.indices.length, gl.UNSIGNED_SHORT, 0);
+        bindBase(baseMatrix);
+  }
+  function bindCone(coneMatrix){
+    transformMatrix(coneMatrix, coneMatrix, 't', 1, 3.0, -4.5);
+    transformMatrix(coneMatrix, coneMatrix, 's', 2, 2, 1, 0);
+    transformMatrix(coneMatrix, coneMatrix, "rx", 0,0,0,radians(-20));
+    transformMatrix(coneMatrix, coneMatrix, "rz", 0,0,0,radians(-15));
+    gl.activeTexture (gl.TEXTURE3);
+    gl.bindTexture (gl.TEXTURE_2D, baseTexture);
+    gl.uniform1i (program.uTheTexture, 3);
+    gl.uniform3fv (program.uTheta, new Float32Array(angles));
+    gl.uniformMatrix4fv (program.uModelT, false, coneMatrix);
+    gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
+    gl.bindVertexArray(cone.VAO);
+    gl.drawElements(gl.TRIANGLES, cone.indices.length, gl.UNSIGNED_SHORT, 0);
+    gl.activeTexture (gl.TEXTURE1);
+    gl.bindTexture (gl.TEXTURE_2D, skyTexture);
+    gl.uniform1i (program.uTheTexture, 1);
+    gl.uniform3fv (program.uTheta, new Float32Array(angles));
+    gl.uniformMatrix4fv (program.uModelT, false, skyMatrix);
+    gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
+    gl.bindVertexArray(sky.VAO);
+    gl.drawElements(gl.TRIANGLES, sky.indices.length, gl.UNSIGNED_SHORT, 0);
+
+  }
+
+  function bindBase(baseMatrix){
+    transformMatrix( baseMatrix, baseMatrix, 't', 2.85,-.65, -1,0);
+    transformMatrix( baseMatrix, baseMatrix, 's', 1,3.5,2,0);
+    gl.activeTexture (gl.TEXTURE2);
+    gl.bindTexture (gl.TEXTURE_2D, baseTexture);
+    gl.uniform1i (program.uTheTexture, 2);
+    gl.uniform3fv (program.uTheta, new Float32Array(angles));
+    gl.uniformMatrix4fv (program.uModelT, false, baseMatrix);
+    gl.uniform4fv (program.colorChange, [.4,.4,.5,1]);
+    gl.bindVertexArray(base.VAO);
+    gl.drawElements(gl.TRIANGLES, base.indices.length, gl.UNSIGNED_SHORT, 0);
+    transformMatrix( baseMatrix, baseMatrix, 't', -0.1,1.0, -1.2);
+    transformMatrix( baseMatrix, baseMatrix, 's', 0.5,0.8,0.2);
+    transformMatrix(baseMatrix, baseMatrix, "rx", 0,0,0,radians(0));
+    transformMatrix(baseMatrix, baseMatrix, "ry", 0,0,0,radians(-135));
+    transformMatrix(baseMatrix, baseMatrix, "rz", 0,0,0,radians(-180));
+    gl.activeTexture (gl.TEXTURE2);
+    gl.bindTexture (gl.TEXTURE_2D, baseTexture);
+    gl.uniform1i (program.uTheTexture, 2);
+    gl.uniform3fv (program.uTheta, new Float32Array(angles));
+    gl.uniformMatrix4fv (program.uModelT, false, baseMatrix);
+    gl.uniform4fv (program.colorChange, [.4,.4,.5,1]);
+    gl.bindVertexArray(base.VAO);
+    gl.drawElements(gl.TRIANGLES, base.indices.length, gl.UNSIGNED_SHORT, 0);
   }
 
 
@@ -383,11 +390,9 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
   // to program.
   //
   function initPrograms() {
-      generalProgram = initProgram( "vertex-shader", "fragment-shader");
-      textureProgram = initProgram('sphereMap-V', 'sphereMap-F');
-      gradientProgram = initProgram('sphereMap-V', 'gradientMap-F');
-      // perVertexProgram = initProgram('phong-per-vertex-V', 'phong-per-vertex-F');
-      // perFragmentProgram = initProgram('phong-per-fragment-V', 'phong-per-fragment-F');
+      gP = initProgram( "vertex-shader", "fragment-shader");
+      tP = initProgram('sphereMap-V', 'sphereMap-F');
+      grP = initProgram('sphereMap-V', 'gradientMap-F');
   }
 
   // creates a VAO and returns its ID
@@ -397,46 +402,49 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
       gl.bindVertexArray(theVAO);
       bindBuffer(shape,program);
       // Clean
-      gl.bindVertexArray(null);
-      gl.bindBuffer(gl.ARRAY_BUFFER, null);
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-      
+      clean();
       return theVAO;
+  }
+
+  function clean(){
+    gl.bindVertexArray(null);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
   }
 
 function bindBuffer(shape,program){
   let myVertexBuffer = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, myVertexBuffer);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
-      gl.enableVertexAttribArray(program.aVertexPosition);
-      gl.vertexAttribPointer(program.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
-
-  if( program == generalProgram) {
-    // create and bind bary buffer
-    let myNormalBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, myNormalBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(program.aNormal);
-    gl.vertexAttribPointer(program.aNormal, 3, gl.FLOAT, false, 0, 0);
-  } else if( program == textureProgram ) {
-    let myNormalBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, myNormalBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(program.aNormal);
-    gl.vertexAttribPointer(program.aNormal, 3, gl.FLOAT, false, 0, 0);
-      
-    let uvBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.uv), gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(program.aUV);
-    gl.vertexAttribPointer(program.aUV, 2, gl.FLOAT, false, 0, 0);
-  }else if(program == gradientProgram){
-    let myNormalBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, myNormalBuffer);
+  gl.bindBuffer(gl.ARRAY_BUFFER, myVertexBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(program.aVertexPosition);
+  gl.vertexAttribPointer(program.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
+  if(program == grP){
+    let b = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, b);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
     gl.enableVertexAttribArray(program.aNormal);
     gl.vertexAttribPointer(program.aNormal, 3, gl.FLOAT, false, 0, 0);
   }
+  else if( program == tP ) {
+    let b = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(program.aNormal);
+    gl.vertexAttribPointer(program.aNormal, 3, gl.FLOAT, false, 0, 0);
+    let ub = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, ub);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.uv), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(program.aUV);
+    gl.vertexAttribPointer(program.aUV, 2, gl.FLOAT, false, 0, 0);
+  } 
+  else if( program == gP) {
+    // create and bind bary buffer
+    let b = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shape.points), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(program.aNormal);
+    gl.vertexAttribPointer(program.aNormal, 3, gl.FLOAT, false, 0, 0);
+  } 
 
   let myIndexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, myIndexBuffer);
@@ -449,7 +457,6 @@ function setUpPhong(program, color, lightPosition) {
     var ambLight = [10, .6, .8];
     var lightClr = [color[0], color[1], color[2]];
     var baseClr = [.1, .2, .2];
-    var specHighlightClr = [.2, .2, .2];
     var Ka = 1;
     var Kd = 2;
     var Ks = 2;
@@ -638,19 +645,19 @@ function setUpTexturePhong(program) {
       
     setUpTextures();
       
-    setUpCamera(generalProgram);
-    setUpCamera(textureProgram);
+    setUpCamera(gP);
+    setUpCamera(tP);
    
     // setUpCamera(perVertexProgram);
     // setUpCamera(perFragmentProgram);
       
     // set up Phong parameters (light Color, light Position)
-    setUpPhong(generalProgram, [.2, .4, .6], [20, -2, 10]);
+    setUpPhong(gP, [.2, .4, .6], [20, -2, 10]);
     
     // setUpPhong(perVertexProgram);
     // setUpPhong(perFragmentProgram);
 
-    setUpTexturePhong(textureProgram);
+    setUpTexturePhong(tP);
     
     // do a draw
     draw();
