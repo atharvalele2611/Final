@@ -324,7 +324,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
         gl.drawElements(gl.TRIANGLES, newcylinder.indices.length, gl.UNSIGNED_SHORT, 0);
 
         //cone for the lamp
-        transformMatrix(coneMatrix, coneMatrix, 't', 2, 3.0, -4.5);
+        transformMatrix(coneMatrix, coneMatrix, 't', 4, 3.0, -4.5);
         transformMatrix(coneMatrix, coneMatrix, 's', 2, 2, 1, 0);
         transformMatrix(coneMatrix, coneMatrix, "rx", 0,0,0,radians(-9));
         transformMatrix(coneMatrix, coneMatrix, "rz", 0,0,0,radians(-45));
