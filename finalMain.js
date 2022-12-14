@@ -343,7 +343,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
     gl.bindTexture (gl.TEXTURE_2D, baseTexture);
     gl.uniform1i (program.uTheTexture, 3);
     gl.uniform3fv (program.uTheta, new Float32Array(angles));
-    gl.uniformMatrix4fv (program.uModelT, false, newcylinderMatrix);
+    gl.uniformMatrix4fv (program.uModelT, false, aM);
     gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
     gl.bindVertexArray(newcylinder.VAO);
     gl.drawElements(gl.TRIANGLES, newcylinder.indices.length, gl.UNSIGNED_SHORT, 0);
@@ -366,7 +366,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
     gl.bindTexture (gl.TEXTURE_2D, skyTexture);
     gl.uniform1i (program.uTheTexture, 1);
     gl.uniform3fv (program.uTheta, new Float32Array(angles));
-    gl.uniformMatrix4fv (program.uModelT, false, skyMatrix);
+    gl.uniformMatrix4fv (program.uModelT, false, lM);
     gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
     gl.bindVertexArray(sky.VAO);
     gl.drawElements(gl.TRIANGLES, sky.indices.length, gl.UNSIGNED_SHORT, 0);
