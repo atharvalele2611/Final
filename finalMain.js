@@ -262,73 +262,94 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
         gl.useProgram(program);
         
         // wooden floor
-        transformMatrix( bridgeMatrix, bridgeMatrix, 'ry', 0, 0, 0, radians(165) );
-        transformMatrix( bridgeMatrix, bridgeMatrix, 't', 5, -2.5, 4, 1);
-        transformMatrix( bridgeMatrix, bridgeMatrix, "s", 50, 0.21, 10, 5);   
-        gl.activeTexture (gl.TEXTURE0);
-        gl.bindTexture (gl.TEXTURE_2D, woodTexture);
-        gl.uniform1i (program.uTheTexture, 0);
-        gl.uniform3fv (program.uTheta, new Float32Array(angles));
-        gl.uniformMatrix4fv (program.uModelT, false, bridgeMatrix);
-        gl.uniform4fv (program.colorChange, [.4,.4,.4,1]);
-        gl.bindVertexArray(bridge.VAO);
-        gl.drawElements(gl.TRIANGLES, bridge.indices.length, gl.UNSIGNED_SHORT, 0);
+        bindFloor(bridgeMatrix,program)
 
         // ball
-        transformMatrix(headMatrix, headMatrix, 't', 0.1, -1.0, -5);
-        transformMatrix(headMatrix, headMatrix, 's', 1, 1, 1, 0);
-        gl.activeTexture (gl.TEXTURE3);
-        gl.bindTexture (gl.TEXTURE_2D, headTexture);
-        gl.uniform1i (program.uTheTexture, 3);
-        gl.uniform3fv (program.uTheta, new Float32Array(angles));
-        gl.uniformMatrix4fv (program.uModelT, false, headMatrix);
-        gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
-        gl.bindVertexArray(head.VAO);
-        gl.drawElements(gl.TRIANGLES, head.indices.length, gl.UNSIGNED_SHORT, 0);
-
+        bindBall(headMatrix,program);
         // wall
-        transformMatrix( skyMatrix, skyMatrix, 'rx', 0,0,0, radians(0));
-        transformMatrix(skyMatrix, skyMatrix, 't', 0,10,20,0);
-        transformMatrix(skyMatrix, skyMatrix, 's', 50,70,10,0);
-        transformMatrix( skyMatrix, skyMatrix, 'rz', 0,0,0, radians(-180));
+        bindSky(skyMatrix)
 
         //cylinder for lamp
-        transformMatrix(cylinderMatrix, cylinderMatrix, "t", 3,-1.25,-5);
-        transformMatrix(cylinderMatrix, cylinderMatrix, "s", 2.5,-0.750, 0,0);
-        transformMatrix(cylinderMatrix, cylinderMatrix, "ry", 0,0,0, radians(-9))
-        transformMatrix(cylinderMatrix, cylinderMatrix, "rz", 0,0,0, radians(-12))
-
-        gl.activeTexture(gl.TEXTURE3);
-        gl.bindTexture (gl.TEXTURE_2D, baseTexture);
-        gl.uniform1i (program.uTheTexture, 3);
-        gl.uniform3fv (program.uTheta, new Float32Array(angles));
-        gl.uniformMatrix4fv (program.uModelT, false, cylinderMatrix);
-        gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
-        gl.bindVertexArray(cylinder.VAO);
-        gl.drawElements(gl.TRIANGLES, cylinder.indices.length, gl.UNSIGNED_SHORT, 0);
+        bindCylinder(cylinderMatrix,program)
 
         // new cylinder for lamp
-        transformMatrix(newcylinderMatrix, newcylinderMatrix, "t",1.5,5.0,0.0);
-        transformMatrix(newcylinderMatrix, newcylinderMatrix, "s", 2.5,-0.750, 0,0);
-        transformMatrix( newcylinderMatrix, newcylinderMatrix, 'rx', 0,0,0, radians(45));
-        transformMatrix(newcylinderMatrix, newcylinderMatrix, "ry", 0,0,0, radians(-45));
-        transformMatrix(newcylinderMatrix, newcylinderMatrix, "rz", 0,0,0, radians(-45));
-
-        gl.activeTexture(gl.TEXTURE3);
-        gl.bindTexture (gl.TEXTURE_2D, baseTexture);
-        gl.uniform1i (program.uTheTexture, 3);
-        gl.uniform3fv (program.uTheta, new Float32Array(angles));
-        gl.uniformMatrix4fv (program.uModelT, false, newcylinderMatrix);
-        gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
-        gl.bindVertexArray(newcylinder.VAO);
-        gl.drawElements(gl.TRIANGLES, newcylinder.indices.length, gl.UNSIGNED_SHORT, 0);
+        bindAttachement(newcylinderMatrix,program)
 
         //cone for the lamp
-        bindCone(coneMatrix);
+        bindCone(coneMatrix,program);
         // base
-        bindBase(baseMatrix);
+        bindBase(baseMatrix,program);
   }
-  function bindCone(coneMatrix){
+
+  function bindBall(headMatrix,program){
+    transformMatrix(headMatrix, headMatrix, 't', 0.1, -1.0, -5);
+    transformMatrix(headMatrix, headMatrix, 's', 1, 1, 1, 0);
+    gl.activeTexture (gl.TEXTURE3);
+    gl.bindTexture (gl.TEXTURE_2D, headTexture);
+    gl.uniform1i (program.uTheTexture, 3);
+    gl.uniform3fv (program.uTheta, new Float32Array(angles));
+    gl.uniformMatrix4fv (program.uModelT, false, headMatrix);
+    gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
+    gl.bindVertexArray(head.VAO);
+    gl.drawElements(gl.TRIANGLES, head.indices.length, gl.UNSIGNED_SHORT, 0);
+
+  }
+
+  function bindFloor(bridgeMatrix,program){
+    transformMatrix( bridgeMatrix, bridgeMatrix, 'ry', 0, 0, 0, radians(165) );
+    transformMatrix( bridgeMatrix, bridgeMatrix, 't', 5, -2.5, 4, 1);
+    transformMatrix( bridgeMatrix, bridgeMatrix, "s", 50, 0.21, 10, 5);   
+    gl.activeTexture (gl.TEXTURE0);
+    gl.bindTexture (gl.TEXTURE_2D, woodTexture);
+    gl.uniform1i (program.uTheTexture, 0);
+    gl.uniform3fv (program.uTheta, new Float32Array(angles));
+    gl.uniformMatrix4fv (program.uModelT, false, bridgeMatrix);
+    gl.uniform4fv (program.colorChange, [.4,.4,.4,1]);
+    gl.bindVertexArray(bridge.VAO);
+    gl.drawElements(gl.TRIANGLES, bridge.indices.length, gl.UNSIGNED_SHORT, 0);
+  }
+
+  function bindSky(skyMatrix){
+    transformMatrix( skyMatrix, skyMatrix, 'rx', 0,0,0, radians(0));
+    transformMatrix(skyMatrix, skyMatrix, 't', 0,10,20,0);
+    transformMatrix(skyMatrix, skyMatrix, 's', 50,70,10,0);
+    transformMatrix( skyMatrix, skyMatrix, 'rz', 0,0,0, radians(-180));
+  }
+
+  function bindCylinder(cylinderMatrix,program){
+    transformMatrix(cylinderMatrix, cylinderMatrix, "t", 3,-1.25,-5);
+    transformMatrix(cylinderMatrix, cylinderMatrix, "s", 2.5,-0.750, 0,0);
+    transformMatrix(cylinderMatrix, cylinderMatrix, "ry", 0,0,0, radians(-9))
+    transformMatrix(cylinderMatrix, cylinderMatrix, "rz", 0,0,0, radians(-12))
+
+    gl.activeTexture(gl.TEXTURE3);
+    gl.bindTexture (gl.TEXTURE_2D, baseTexture);
+    gl.uniform1i (program.uTheTexture, 3);
+    gl.uniform3fv (program.uTheta, new Float32Array(angles));
+    gl.uniformMatrix4fv (program.uModelT, false, cylinderMatrix);
+    gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
+    gl.bindVertexArray(cylinder.VAO);
+    gl.drawElements(gl.TRIANGLES, cylinder.indices.length, gl.UNSIGNED_SHORT, 0);
+  }
+
+  function bindAttachement(newcylinderMatrix,program){
+    transformMatrix(newcylinderMatrix, newcylinderMatrix, "t",1.5,5.0,0.0);
+    transformMatrix(newcylinderMatrix, newcylinderMatrix, "s", 2.5,-0.750, 0,0);
+    transformMatrix( newcylinderMatrix, newcylinderMatrix, 'rx', 0,0,0, radians(45));
+    transformMatrix(newcylinderMatrix, newcylinderMatrix, "ry", 0,0,0, radians(-45));
+    transformMatrix(newcylinderMatrix, newcylinderMatrix, "rz", 0,0,0, radians(-45));
+
+    gl.activeTexture(gl.TEXTURE3);
+    gl.bindTexture (gl.TEXTURE_2D, baseTexture);
+    gl.uniform1i (program.uTheTexture, 3);
+    gl.uniform3fv (program.uTheta, new Float32Array(angles));
+    gl.uniformMatrix4fv (program.uModelT, false, newcylinderMatrix);
+    gl.uniform4fv (program.colorChange, [.3,.3,.4,1]);
+    gl.bindVertexArray(newcylinder.VAO);
+    gl.drawElements(gl.TRIANGLES, newcylinder.indices.length, gl.UNSIGNED_SHORT, 0);
+  }
+
+  function bindCone(coneMatrix,program){
     transformMatrix(coneMatrix, coneMatrix, 't', 1, 3.0, -4.5);
     transformMatrix(coneMatrix, coneMatrix, 's', 2, 2, 1, 0);
     transformMatrix(coneMatrix, coneMatrix, "rx", 0,0,0,radians(-20));
@@ -352,7 +373,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
 
   }
 
-  function bindBase(baseMatrix){
+  function bindBase(baseMatrix,program){
     transformMatrix( baseMatrix, baseMatrix, 't', 2.85,-.65, -1,0);
     transformMatrix( baseMatrix, baseMatrix, 's', 1,3.5,2,0);
     gl.activeTexture (gl.TEXTURE2);
