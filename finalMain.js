@@ -326,7 +326,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
         //cone for the lamp
         transformMatrix(coneMatrix, coneMatrix, 't', 0.5, 3.0, -4.5);
         transformMatrix(coneMatrix, coneMatrix, 's', 2, 2, 1, 0);
-        transformMatrix(coneMatrix, coneMatrix, "rx", 0,0,0,radians(-9));
+        transformMatrix(coneMatrix, coneMatrix, "rx", 0,0,0,radians(-20));
         transformMatrix(coneMatrix, coneMatrix, "rz", 0,0,0,radians(-45));
         gl.activeTexture (gl.TEXTURE3);
         gl.bindTexture (gl.TEXTURE_2D, baseTexture);
