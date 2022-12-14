@@ -23,6 +23,7 @@
 
   // textures
   let woodTexture;
+  let skyTexture;
   let baseTexture;
   let headTexture;
   // let lampHeadTexture;
@@ -37,7 +38,7 @@
 //
 function createShapes() {
     head = new Sphere( 40, 40);
-    // sky = new Cube(30);
+    sky = new Cube(30);
     base = new Cube(5);
     cylinder = new Cylinder(40,40);
     cone = new Cone(20, 20);
@@ -45,7 +46,7 @@ function createShapes() {
 
 
     head.VAO = bindVAO (head, textureProgram);
-    // sky.VAO = bindVAO( sky, textureProgram );
+    sky.VAO = bindVAO( sky, textureProgram );
     base.VAO = bindVAO( base, textureProgram );
     bridge.VAO = bindVAO( bridge, textureProgram );
     cone.VAO = bindVAO(cone, textureProgram);
@@ -79,6 +80,7 @@ function getWoodTexture(){
   woodTexture = gl.createTexture();
   // load the actual image
   var woodImage = document.getElementById ('wood-texture')
+  woodImage.crossOrigin = "";
   // Because images have to be downloaded over the internet
   // they might take a moment until they are ready.
   // Until then put a single pixel in the texture so we can
@@ -112,25 +114,25 @@ function getWoodTexture(){
 }
 
 
-// function getSkyTexture(){
-//   skyTexture = gl.createTexture();
-//   var skyImage = document.getElementById('sky-texture');
-//   skyImage.crossOrigin = "";
+function getSkyTexture(){
+  skyTexture = gl.createTexture();
+  var skyImage = document.getElementById('sky-texture');
+  skyImage.crossOrigin = "";
 
-//   let level = 0;
-//   let internalFormat = gl.RGBA;
-//   let width = skyImage.width;
-//   let height = skyImage.height;
-//   let border = 0;
-//   let srcFormat = gl.RGBA;
-//   let srcType = gl.UNSIGNED_BYTE;
+  let level = 0;
+  let internalFormat = gl.RGBA;
+  let width = skyImage.width;
+  let height = skyImage.height;
+  let border = 0;
+  let srcFormat = gl.RGBA;
+  let srcType = gl.UNSIGNED_BYTE;
   
-//   gl.bindTexture(gl.TEXTURE_2D, skyTexture);
-//   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, skyImage.width, skyImage.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, skyImage);    
-//   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-//   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-//   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-// }
+  gl.bindTexture(gl.TEXTURE_2D, skyTexture);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, skyImage.width, skyImage.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, skyImage);    
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+}
 
 //
 // load up the textures you will use in the shader(s)
@@ -145,7 +147,7 @@ function setUpTextures(){
     
     // get some texture space from the gpu
     getWoodTexture();
-    // getSkyTexture();
+    getSkyTexture();
     baseTexture = gl.createTexture();
     headTexture = gl.createTexture();
     // lampHeadTexture = gl.createTexture();
@@ -211,7 +213,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
     function drawShapes() {
         let headMatrix = glMatrix.mat4.create();
         let bridgeMatrix = glMatrix.mat4.create();
-        // let skyMatrix = glMatrix.mat4.create();
+        let skyMatrix = glMatrix.mat4.create();
         let baseMatrix = glMatrix.mat4.create();
         let cylinderMatrix = glMatrix.mat4.create();
         let coneMatrix = glMatrix.mat4.create();
@@ -250,10 +252,10 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
         gl.drawElements(gl.TRIANGLES, head.indices.length, gl.UNSIGNED_SHORT, 0);
 
         
-        // transformMatrix( skyMatrix, skyMatrix, 'rx', 0,0,0, radians(0));
-        // transformMatrix(skyMatrix, skyMatrix, 't', 0,10,20,0);
-        // transformMatrix(skyMatrix, skyMatrix, 's', 50,70,10,0);
-        // transformMatrix( skyMatrix, skyMatrix, 'rz', 0,0,0, radians(-180));
+        transformMatrix( skyMatrix, skyMatrix, 'rx', 0,0,0, radians(0));
+        transformMatrix(skyMatrix, skyMatrix, 't', 0,10,20,0);
+        transformMatrix(skyMatrix, skyMatrix, 's', 50,70,10,0);
+        transformMatrix( skyMatrix, skyMatrix, 'rz', 0,0,0, radians(-180));
 
         // gl.activeTexture(gl.TEXTURE3);
         // gl.bindTexture(gl.TEXTURE_2D, baseTexture);
