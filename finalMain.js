@@ -38,11 +38,11 @@
 //
 function createShapes() {
     head = new Sphere( 40, 40);
-    sky = new Cube( 30 );
-    base = new Cube( 10 );
+    sky = new Cube(30);
+    base = new Cube(5);
     cylinder = new Cylinder(40,40);
     cone = new Cone(20, 20);
-    bridge = new Cube( 10 );
+    bridge = new Cube(5);
 
 
     head.VAO = bindVAO (head, textureProgram);
