@@ -336,16 +336,16 @@ function transformWithType( matIn, matOut, type, x, y, z, rad ) {
   }
 
   function bindBase(baM,program){
-    // transformWithType( baM, baM, 't', 2.85,-.65, -1,0);
-    // transformWithType( baM, baM, 's', 1,3.5,2,0);
-    // gl.activeTexture (gl.TEXTURE2);
-    // gl.bindTexture (gl.TEXTURE_2D, baseTex);
-    // gl.uniform1i (program.uTheTexture, 2);
-    // gl.uniform3fv (program.uTheta, new Float32Array(angles));
-    // gl.uniformMatrix4fv (program.uModelT, false, baM);
-    // gl.uniform4fv (program.colorChange, [.4,.4,.5,1]);
-    // gl.bindVertexArray(base.VAO);
-    // gl.drawElements(gl.TRIANGLES, base.indices.length, gl.UNSIGNED_SHORT, 0);
+    transformWithType( baM, baM, 't', 2.85,-.65, -1,0);
+    transformWithType( baM, baM, 's', 1,3.5,2,0);
+    gl.activeTexture (gl.TEXTURE2);
+    gl.bindTexture (gl.TEXTURE_2D, baseTex);
+    gl.uniform1i (program.uTheTexture, 2);
+    gl.uniform3fv (program.uTheta, new Float32Array(angles));
+    gl.uniformMatrix4fv (program.uModelT, false, baM);
+    gl.uniform4fv (program.colorChange, [.4,.4,.5,1]);
+    gl.bindVertexArray(base.VAO);
+    gl.drawElements(gl.TRIANGLES, base.indices.length, gl.UNSIGNED_SHORT, 0);
     transformWithType( baM, baM, 't', -0.1,1.0, -1.2);
     transformWithType( baM, baM, 's', 0.5,0.8,0.2);
     transformWithType(baM, baM, "rx", 0,0,0,radians(0));
