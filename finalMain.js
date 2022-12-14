@@ -38,7 +38,7 @@
 //
 function createShapes() {
     head = new Sphere( 40, 40);
-    sky = new Cube(30);
+    // sky = new Cube(30);
     base = new Cube(5);
     cylinder = new Cylinder(40,40);
     cone = new Cone(20, 20);
@@ -46,7 +46,7 @@ function createShapes() {
 
 
     head.VAO = bindVAO (head, textureProgram);
-    sky.VAO = bindVAO( sky, textureProgram );
+    // sky.VAO = bindVAO( sky, textureProgram );
     base.VAO = bindVAO( base, textureProgram );
     bridge.VAO = bindVAO( bridge, textureProgram );
     cone.VAO = bindVAO(cone, textureProgram);
@@ -147,7 +147,7 @@ function setUpTextures(){
     
     // get some texture space from the gpu
     getWoodTexture();
-    getSkyTexture();
+    // getSkyTexture();
     baseTexture = gl.createTexture();
     headTexture = gl.createTexture();
     // lampHeadTexture = gl.createTexture();
