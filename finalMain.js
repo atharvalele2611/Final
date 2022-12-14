@@ -454,8 +454,8 @@ function setUpPhong(program, color, lightPosition) {
     var baseClr = [.1, .2, .2];
     var specHighlightClr = [.2, .2, .2];
     var Ka = 1;
-    var Kd = 1.4;
-    var Ks = 1;
+    var Kd = 2;
+    var Ks = 2;
     var Ke = .4;
     
     gl.uniform3fv( program.ambientLight, ambLight);
@@ -475,8 +475,8 @@ function setUpTexturePhong(program) {
     var lightClr = [1, 1, 1];
     var baseClr = [.4, .4, .4];
     var Ka = 1;
-    var Kd = 1.4;
-    var Ks = 1;
+    var Kd = 2;
+    var Ks = 2;
     var Ke = .4;
     gl.uniform3fv( program.ambientLight, ambLight);
     gl.uniform3fv( program.lightPosition, lightPos );
