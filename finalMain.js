@@ -360,7 +360,7 @@ function transformMatrix( matIn, matOut, type, x, y, z, rad ) {
         transformMatrix( baseMatrix, baseMatrix, 's', 0.5,0.8,0.2);
         transformMatrix(baseMatrix, baseMatrix, "rx", 0,0,0,radians(0));
         transformMatrix(baseMatrix, baseMatrix, "ry", 0,0,0,radians(-135));
-        transformMatrix(baseMatrix, baseMatrix, "rz", 0,0,0,radians(-30));
+        transformMatrix(baseMatrix, baseMatrix, "rz", 0,0,0,radians(-180));
         gl.activeTexture (gl.TEXTURE2);
         gl.bindTexture (gl.TEXTURE_2D, baseTexture);
         gl.uniform1i (program.uTheTexture, 2);
