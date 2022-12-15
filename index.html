@@ -29,36 +29,29 @@
         void main(void)
         {
             // All calculations will be done in camera space
-            calculate();
+            mat4 mV = viewT * modelT;
+            mat4 nm = transpose(inverse (mV));
 
-        }
-
-        void calculate(void){
-            mat4 modelView = viewT * modelT;
-            mat4 normalmatrix = transpose(inverse (modelView));
-
-            vec3 vcam = (modelView * vec4(aVertexPosition, 1.0)).xyz;
-            vec3 lcam = (viewT * vec4(lightPosition, 1.0)).xyz;
-            vec3 ncam = (normalmatrix * vec4(aNormal, 1.0)).xyz;
-            ncam = faceforward (ncam, vcam, ncam);
+            vec3 vCAM = (mV * vec4(aVertexPosition, 1.0)).xyz;
+            vec3 lCAM = (viewT * vec4(lightPosition, 1.0)).xyz;
+            vec3 nCAM = (nm * vec4(aNormal, 1.0)).xyz;
+            nCAM = faceforward (nCAM, vCAM, nCAM);
 
 
-            vec3 N = normalize (ncam);
-            vec3 L = normalize (lcam - vcam);
+            vec3 N = normalize (nCAM);
+            vec3 L = normalize (lCAM - vCAM);
             vec3 R = normalize (reflect (-L, N));
-            vec3 V = -normalize (vcam);
+            vec3 V = -normalize (vCAM);
 
-            // individual components
-            vec3 ambient = ka * ambientLight * baseColor;
-            vec3 diffuse = kd * lightColor * baseColor * max (dot(L, N), 0.0);
-            vec3 spec = ks * specHighlightColor * lightColor * pow (max(dot(R, V), 0.0), ke);
-
-            // final color
-            colr = ambient + diffuse + spec;
+            vec3 a = ka * ambientLight * baseColor;
+            vec3 d = kd * lightColor * baseColor * max (dot(L, N), 0.0);
+            vec3 s = ks * specHighlightColor * lightColor * pow (max(dot(R, V), 0.0), ke);
+            colr = a + d + s;
             
             gl_Position = projT * viewT * modelT * vec4( aVertexPosition, 1.0);
             
             theUV = aUV;
+
         }
 
     </script>
@@ -94,7 +87,7 @@
     uniform mat4 projT;
     
     uniform vec3 ambientLight;
-    uniform vec3 lightPosition;   // in world coords
+    uniform vec3 lightPosition;
     uniform vec3 lightColor;
 
     uniform vec3 baseColor;
@@ -109,27 +102,23 @@
     
     void main(void)
     {
-        calculate();
-    }
-
-    void calculate(void){
         mat4 modelView = viewT * modelT;
         mat4 normalmatrix = transpose(inverse (modelView));
 
-        vec3 vcam = (modelView * vec4(aVertexPosition, 1.0)).xyz;
-        vec3 lcam = (viewT * vec4(lightPosition, 1.0)).xyz;
-        vec3 ncam = (normalmatrix * vec4(aNormal, 1.0)).xyz;
-        ncam = faceforward (ncam, vcam, ncam);
+        vec3 vCAM = (modelView * vec4(aVertexPosition, 1.0)).xyz;
+        vec3 lCAM = (viewT * vec4(lightPosition, 1.0)).xyz;
+        vec3 nCAM = (normalmatrix * vec4(aNormal, 1.0)).xyz;
+        nCAM = faceforward (nCAM, vCAM, nCAM);
 
-        vec3 N = normalize (ncam);
-        vec3 L = normalize (lcam - vcam);
+        vec3 N = normalize (nCAM);
+        vec3 L = normalize (lCAM - vCAM);
         vec3 R = normalize (reflect (-L, N));
-        vec3 V = -normalize (vcam);
+        vec3 V = -normalize (vCAM);
 
-        vec3 ambient = ka * ambientLight * baseColor;
-        vec3 diffuse = kd * lightColor * baseColor * max (dot(L, N), 0.0);
-        vec3 spec = ks * specHighlightColor * lightColor * pow (max(dot(R, V), 0.0), ke);
-        colr = ambient + diffuse + spec;
+        vec3 a = ka * ambientLight * baseColor;
+        vec3 d = kd * lightColor * baseColor * max (dot(L, N), 0.0);
+        vec3 s = ks * specHighlightColor * lightColor * pow (max(dot(R, V), 0.0), ke);
+        colr = a + d + s;
         
         vec3 angles = radians( theta );
         vec3 c = cos( angles );
@@ -166,7 +155,6 @@
          out vec4 fragColor;
          void main(void) {
             fragColor = texture (theTexture, theUV) * vec4 (colr.xyz, 1.0 );
-             
          }
 
     </script>
