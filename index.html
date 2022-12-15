@@ -25,7 +25,7 @@
         uniform float kd;
         uniform float ks;
         uniform float ke;
-        out vec3 colr;
+        out vec3 outputColor;
         void main(void)
         {
             // All calculations done in camera space
@@ -46,7 +46,7 @@
             vec3 a = ka * ambientLight * baseColor;
             vec3 d = kd * lightColor * baseColor * max (dot(L, N), 0.0);
             vec3 sp = ks * specHighlightColor * lightColor * pow (max(dot(R, V), 0.0), ke);
-            colr = a + d + sp;
+            outputColor = a + d + sp;
             gl_Position = projT * viewT * modelT * vec4( aVertexPosition, 1.0);
             theUV = aUV;
         }
@@ -95,7 +95,7 @@
     uniform float ks;
     uniform float ke;
     
-    out vec3 colr;
+    out vec3 outputColr;
     
     void main(void)
     {
@@ -115,7 +115,7 @@
         vec3 a = ka * ambientLight * baseColor;
         vec3 d = kd * lightColor * baseColor * max (dot(L, N), 0.0);
         vec3 sp = ks * specHighlightColor * lightColor * pow (max(dot(R, V), 0.0), ke);
-        colr = a + d + sp;
+        outputColr = a + d + sp;
                          
         theUV = aUV;
         gl_Position = projT * viewT * modelT * vec4( aVertexPosition, 1.0);
@@ -141,14 +141,13 @@
         #version 300 es
         precision lowp float;
         in vec2 theUV;
-        //uniform sampler2D theTexture;
         out vec4 fColor;
         void main(void) {
-            float s = theUV.s;
-            float t = theUV.t;
+            float uvS = theUV.s;
+            float uvT = theUV.t;
             vec3 color = vec3(.50, 0.50, 0.50);
-            float percent = s;
-            fColor = vec4(color * s, 1.0);
+            float percent = uvS;
+            fColor = vec4(color * uvS, 1.0);
         }
 
    </script>
