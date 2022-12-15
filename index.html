@@ -25,12 +25,15 @@
         uniform float kd;
         uniform float ks;
         uniform float ke;
-        
         out vec3 colr;
-        
         void main()
         {
             // All calculations will be done in camera space
+            calculate();
+
+        }
+
+        void calculate(){
             mat4 modelView = viewT * modelT;
             mat4 normalmatrix = transpose(inverse (modelView));
 
@@ -56,8 +59,8 @@
             gl_Position = projT * viewT * modelT * vec4( aVertexPosition, 1.0);
             
             theUV = aUV;
-
         }
+
     </script>
 
      <script id="fragment-shader" type="x-shader/x-fragment">
@@ -90,7 +93,6 @@
     uniform mat4 viewT;
     uniform mat4 projT;
     
-    
     uniform vec3 ambientLight;
     uniform vec3 lightPosition;   // in world coords
     uniform vec3 lightColor;
@@ -104,10 +106,13 @@
     uniform float ke;
     
     out vec3 colr;
-      
-      
+    
     void main()
     {
+        calculate();
+    }
+
+    void calculate(){
         mat4 modelView = viewT * modelT;
         mat4 normalmatrix = transpose(inverse (modelView));
 
@@ -172,24 +177,12 @@
         in vec2 theUV;
         //uniform sampler2D theTexture;
         out vec4 fragColor;
-
-        vec4 gradient(vec2 uv) {
-            float s = uv.s;
-            float t = uv.t;
-            vec3 color = vec3(.50, 0.50, 0.50);
-            float percent = s;
-            // percent = s;
-            return vec4(color * s, 1.0);
-        }
-
         void main(void) {
             float s = theUV.s;
             float t = theUV.t;
             vec3 color = vec3(.50, 0.50, 0.50);
             float percent = s;
-           fragColor = vec4(color * s, 1.0);
-           
-           // fragColor = gradient( theUV );
+            fragColor = vec4(color * s, 1.0);
         }
 
    </script>
