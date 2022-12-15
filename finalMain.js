@@ -212,7 +212,7 @@ function transformWithType( mIn, mO, type, x, y, z, rad ) {
     } else if( type == 'rz' ) {
         glMatrix.mat4.rotateZ( mO, mIn, rad );
     }
-    return matOut;
+    return mO;
 }
 
 //
