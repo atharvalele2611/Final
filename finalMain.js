@@ -68,23 +68,23 @@ function fetchWoodTx(){
   woodTex = gl.createTexture();
   var woodImage = document.getElementById ('wood-texture')
   woodImage.crossOrigin = "";
-  let level = 0;
-  let internalFormat = gl.RGBA;
+  let lvl = 0;
+  let type = gl.UNSIGNED_BYTE;
+  let border = 0;
+  let intFormat = gl.RGBA;
   let width = woodImage.width;
   let height = woodImage.height;
-  let border = 0;
-  let srcFormat = gl.RGBA;
-  let srcType = gl.UNSIGNED_BYTE;
+  let format = gl.RGBA;
   gl.bindTexture(gl.TEXTURE_2D, woodTex );
    gl.texImage2D(
     gl.TEXTURE_2D,
-    level,
-    internalFormat,
+    lvl,
+    intFormat,
     width,
     height,
     border,
-    srcFormat,
-    srcType,
+    format,
+    type,
     woodImage
   );
    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT);
@@ -95,28 +95,27 @@ function fetchWoodTx(){
 
 function fetchSkyTx(){
   skyTex = gl.createTexture();
-  var skyImage = document.getElementById('sky-texture');
-  skyImage.crossOrigin = "";
+  var skyImg = document.getElementById('sky-texture');
+  skyImg.crossOrigin = "";
 
-  let level = 0;
-  let internalFormat = gl.RGBA;
-  let width = skyImage.width;
-  let height = skyImage.height;
+  let lvl = 0;
+  let type = gl.UNSIGNED_BYTE;
+  let intFormat = gl.RGBA;
+  let width = skyImg.width;
+  let height = skyImg.height;
+  let format = gl.RGBA;
   let border = 0;
-  let srcFormat = gl.RGBA;
-  let srcType = gl.UNSIGNED_BYTE;
-
   gl.bindTexture(gl.TEXTURE_2D, skyTex);
   gl.texImage2D(
     gl.TEXTURE_2D,
-    level,
-    internalFormat,
+    lvl,
+    intFormat,
     width,
     height,
     border,
-    srcFormat,
-    srcType,
-    skyImage
+    format,
+    type,
+    skyImg
   );    
 
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT);
@@ -126,28 +125,26 @@ function fetchSkyTx(){
 
 function fetchBaseTx(){
   baseTex = gl.createTexture();
-  var baseImage = document.getElementById('base-texture');
-  baseImage.crossOrigin = "";
-
-  let level = 0;
-  let internalFormat = gl.RGBA;
-  let width = baseImage.width;
-  let height = baseImage.height;
+  var baseImg = document.getElementById('base-texture');
+  baseImg.crossOrigin = "";
+  let lvl = 0;
+  let type = gl.UNSIGNED_BYTE;
+  let intFormat = gl.RGBA;
+  let width = baseImg.width;
+  let height = baseImg.height;
+  let format = gl.RGBA;
   let border = 0;
-  let srcFormat = gl.RGBA;
-  let srcType = gl.UNSIGNED_BYTE;
-
   gl.bindTexture(gl.TEXTURE_2D, baseTex);
   gl.texImage2D(
     gl.TEXTURE_2D,
-    level,
-    internalFormat,
+    lvl,
+    intFormat,
     width,
     height,
     border,
-    srcFormat,
-    srcType,
-    baseImage
+    format,
+    type,
+    baseImg
   );    
 
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT);
@@ -157,30 +154,27 @@ function fetchBaseTx(){
 
 function fetchHeadTx(){
   ballTex = gl.createTexture();
-  var headImage = document.getElementById('head-texture');
-  headImage.crossOrigin = "";
-
-  let level = 0;
-  let internalFormat = gl.RGBA;
-  let width = headImage.width;
-  let height = headImage.height;
+  var ballImg = document.getElementById('head-texture');
+  ballImg.crossOrigin = "";
+  let lvl = 0;
+  let type = gl.UNSIGNED_BYTE;
+  let intFormat = gl.RGBA;
+  let width = ballImg.width;
+  let height = ballImg.height;
   let border = 0;
-  let srcFormat = gl.RGBA;
-  let srcType = gl.UNSIGNED_BYTE;
-
+  let format = gl.RGBA;
   gl.bindTexture(gl.TEXTURE_2D, ballTex);
   gl.texImage2D(
     gl.TEXTURE_2D,
-    level,
-    internalFormat,
+    lvl,
+    intFormat,
     width,
     height,
     border,
-    srcFormat,
-    srcType,
-    headImage
+    format,
+    type,
+    ballImg
   );    
-
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
@@ -206,17 +200,17 @@ function getAllTextures(){
   fetchHeadTx();
 }
 
-function transformWithType( matIn, matOut, type, x, y, z, rad ) {
+function transformWithType( mIn, mO, type, x, y, z, rad ) {
   if ( type == 't' ) {
-    glMatrix.mat4.translate( matOut, matIn, [x, y, z]);
+    glMatrix.mat4.translate( mO, mIn, [x, y, z]);
   } else if( type == 's' ) {
-        glMatrix.mat4.scale( matOut, matIn, [x, y, z] );
+        glMatrix.mat4.scale( mO, mIn, [x, y, z] );
     }   else if( type == 'rx' ) {
-        glMatrix.mat4.rotateX( matOut, matIn, rad );
+        glMatrix.mat4.rotateX( mO, mIn, rad );
     } else if( type == 'ry' ) {
-        glMatrix.mat4.rotateY( matOut, matIn, rad );
+        glMatrix.mat4.rotateY( mO, mIn, rad );
     } else if( type == 'rz' ) {
-        glMatrix.mat4.rotateZ( matOut, matIn, rad );
+        glMatrix.mat4.rotateZ( mO, mIn, rad );
     }
     return matOut;
 }
@@ -309,7 +303,6 @@ function transformWithType( matIn, matOut, type, x, y, z, rad ) {
     transformWithType( aM, aM, 'rx', 0,0,0, radians(45));
     transformWithType(aM, aM, "ry", 0,0,0, radians(-45));
     transformWithType(aM, aM, "rz", 0,0,0, radians(-45));
-
     gl.activeTexture(gl.TEXTURE3);
     gl.bindTexture (gl.TEXTURE_2D, baseTex);
     gl.uniform1i (program.uTheTexture, 3);
@@ -374,8 +367,8 @@ function transformWithType( matIn, matOut, type, x, y, z, rad ) {
   //
   function initPrograms() {
       gP = initProgram( "vertex-shader", "fragment-shader");
-      tP = initProgram('sphereMap-V', 'sphereMap-F');
       grP = initProgram('sphereMap-V', 'gradientMap-F');
+      tP = initProgram('sphereMap-V', 'sphereMap-F');
   }
 
   // creates a VAO and returns its ID

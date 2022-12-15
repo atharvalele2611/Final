@@ -1,8 +1,6 @@
 <html>
 <head>
     <title>CSCI-610 -- Final Exam</title>
-    
-    <!-- include vertex shaders -->
 
     <script id="vertex-shader" type="x-shader/x-vertex">
         #version 300 es
@@ -66,7 +64,6 @@
         }
     </script>
 
-     <!-- fragment Shader -->
      <script id="fragment-shader" type="x-shader/x-fragment">
          #version 300 es
          precision mediump float;
@@ -83,9 +80,6 @@
 
      </script>
     
-    
-    <!--trying to get basic texture to work -->
-        <!-- vertex Shader -->
     <script id="sphereMap-V"  type="x-shader/x-vertex">
     #version 300 es
     precision mediump float;
@@ -184,8 +178,7 @@
     }
 
     </script>
-    
-         <!-- fragment Shader -->
+
      <script id="sphereMap-F" type="x-shader/x-fragment">
          #version 300 es
 
@@ -214,9 +207,6 @@
          }
 
     </script>
-
-    <!-- edited from assignment 7-->
-    <!-- fragment Shader -->
     
     <script id="gradientMap-F" type="x-shader/x-fragment">
         #version 300 es
@@ -269,15 +259,12 @@
     <script type="text/javascript" src="./event.js"></script>
     
     <!-- texture images -->
-     <img id="world-texture" src="2_no_clouds_8k.jpg" style="display: none;"> </img>
-    
     <img id="wood-texture" src="wood_1.jpeg" style="display: none;"> </img>
     <img id="sky-texture" src="sky.webp" style="display: none;"> </img>
     <img id="base-texture" src="marble.webp" style="display: none;"> </img>
     <img id="head-texture" src="ball.jpg" style="display: none;"> </img>
 
   <script type="text/javascript">
-    // Call init once the webpage has loaded
     window.onload = init;
   </script>
 </head>
