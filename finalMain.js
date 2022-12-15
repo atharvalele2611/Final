@@ -478,7 +478,6 @@ function setUpTexturePhong(program) {
   // from the DOM and return the compiled shader
   function getShader(id) {
     const script = document.getElementById(id);
-    console.log(script)
     const shaderString = script.text.trim();
 
     // Assign shader depending on the type of shader
