@@ -28,7 +28,7 @@
         out vec3 colr;
         void main(void)
         {
-            // All calculations will be done in camera space
+            // All calculations done in camera space
             mat4 mV = viewT * modelT;
             mat4 nm = transpose(inverse (mV));
 
@@ -120,24 +120,24 @@
         vec3 sp = ks * specHighlightColor * lightColor * pow (max(dot(R, V), 0.0), ke);
         colr = a + d + sp;
         
-        vec3 angles = radians( theta );
-        vec3 c = cos( angles );
-        vec3 s = sin( angles );
+        //vec3 angles = radians( theta );
+        //vec3 c = cos( angles );
+        //vec3 s = sin( angles );
 
-        mat4 rx = mat4 ( 1.0,  0.0,  0.0,  0.0,
-                         0.0,  c.x,  s.x,  0.0,
-                         0.0, -s.x,  c.x,  0.0,
-                         0.0,  0.0,  0.0,  1.0 );
+        //mat4 rx = mat4 ( 1.0,  0.0,  0.0,  0.0,
+        //                 0.0,  c.x,  s.x,  0.0,
+        //                 0.0, -s.x,  c.x,  0.0,
+        //                 0.0,  0.0,  0.0,  1.0 );
 
-        mat4 ry = mat4 ( c.y,  0.0, -s.y,  0.0,
-                         0.0,  1.0,  0.0,  0.0,
-                         s.y,  0.0,  c.y,  0.0,
-                         0.0,  0.0,  0.0,  1.0 );
+        //mat4 ry = mat4 ( c.y,  0.0, -s.y,  0.0,
+        //                 0.0,  1.0,  0.0,  0.0,
+        //                 s.y,  0.0,  c.y,  0.0,
+        //                 0.0,  0.0,  0.0,  1.0 );
 
-         mat4 rz = mat4 ( c.z,  s.z,  0.0,  0.0,
-                         -s.z,  c.z,  0.0,  0.0,
-                         0.0,  0.0,  1.0,  0.0,
-                         0.0,  0.0,  0.0,  1.0 );
+        // mat4 rz = mat4 ( c.z,  s.z,  0.0,  0.0,
+         //                -s.z,  c.z,  0.0,  0.0,
+           //              0.0,  0.0,  1.0,  0.0,
+             //            0.0,  0.0,  0.0,  1.0 );
                          
         theUV = aUV;
         gl_Position = projT * viewT * modelT * vec4( aVertexPosition, 1.0);
