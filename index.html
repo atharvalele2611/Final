@@ -47,11 +47,8 @@
             vec3 d = kd * lightColor * baseColor * max (dot(L, N), 0.0);
             vec3 sp = ks * specHighlightColor * lightColor * pow (max(dot(R, V), 0.0), ke);
             colr = a + d + sp;
-            
             gl_Position = projT * viewT * modelT * vec4( aVertexPosition, 1.0);
-            
             theUV = aUV;
-
         }
 
     </script>
@@ -62,10 +59,10 @@
          
          in vec3 colr;
          in vec2 theUV;
-         out vec4 fragColor;
+         out vec4 fColor;
 
          void main(void) {
-             fragColor = vec4 (colr.xyz, 1.0);
+            fColor = vec4 (colr.xyz, 1.0);
          }
 
      </script>
@@ -133,9 +130,9 @@
          in vec3 colr;
          uniform vec4 colorChange;
          uniform sampler2D theTexture;
-         out vec4 fragColor;
+         out vec4 fColor;
          void main(void) {
-            fragColor = texture (theTexture, theUV) * vec4 (colr.xyz, 1.0 );
+            fColor = texture (theTexture, theUV) * vec4 (colr.xyz, 1.0 );
          }
 
     </script>
@@ -145,13 +142,13 @@
         precision lowp float;
         in vec2 theUV;
         //uniform sampler2D theTexture;
-        out vec4 fragColor;
+        out vec4 fColor;
         void main(void) {
             float s = theUV.s;
             float t = theUV.t;
             vec3 color = vec3(.50, 0.50, 0.50);
             float percent = s;
-            fragColor = vec4(color * s, 1.0);
+            fColor = vec4(color * s, 1.0);
         }
 
    </script>
