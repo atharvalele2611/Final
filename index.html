@@ -170,19 +170,21 @@
         #version 300 es
         precision lowp float;
         in vec2 theUV;
-        uniform sampler2D theTexture;
+        //uniform sampler2D theTexture;
         out vec4 fragColor;
-       vec4 gradient(vec2 uv) {
-         float s = uv.s;
-         float t = uv.t;
-         vec3 color = vec3(.50, 0.50, 0.50);
-         float percent = s;
-         // percent = s;
-         return vec4(color * s, 1.0);
-       }
-        void main(void) {
+
+        vec4 gradient(vec2 uv) {
             float s = uv.s;
             float t = uv.t;
+            vec3 color = vec3(.50, 0.50, 0.50);
+            float percent = s;
+            // percent = s;
+            return vec4(color * s, 1.0);
+        }
+
+        void main(void) {
+            float s = theUV.s;
+            float t = theUV.t;
             vec3 color = vec3(.50, 0.50, 0.50);
             float percent = s;
            fragColor = vec4(color * s, 1.0);
